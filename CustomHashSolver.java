@@ -9,13 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 public class CustomHashSolver {
     public static void main(String[] args) throws UnsupportedEncodingException, NoSuchAlgorithmException{
-        final byte[] HASH_TO_CRACK = "254a841f790e8efba6e23c190c36a750ce33ba44acc711a845d7aff12dabec507675763fa53005ee5616eeb5b0b72be92176ee0d19f0d098fef8b2fe45a8d0ab".getBytes("UTF-8");
+        final String HASH_TO_CRACK = "254a841f790e8efba6e23c190c36a750ce33ba44acc711a845d7aff12dabec507675763fa53005ee5616eeb5b0b72be92176ee0d19f0d098fef8b2fe45a8d0ab";
         System.out.println("Getting key space...");
         List<String> strings = getPlainTexts("./allLower5");
         System.out.println("Starting Cracking...");
         for(String string : strings) {
-            byte[] hash = getHash(string);
-            if(MessageDigest.isEqual(HASH_TO_CRACK, hash)) {
+            String hash = getHash(string).toString();
+            if(hash.equals(HASH_TO_CRACK)) {
                 System.out.println("CRACKED: " + string);
             }
         }
