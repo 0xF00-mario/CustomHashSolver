@@ -7,16 +7,16 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Arrays;
+
 public class CustomHashSolver {
     public static void main(String[] args) throws UnsupportedEncodingException, NoSuchAlgorithmException{
-        final byte[] HASH_TO_CRACK = "254a841f790e8efba6e23c190c36a750ce33ba44acc711a845d7aff12dabec507675763fa53005ee5616eeb5b0b72be92176ee0d19f0d098fef8b2fe45a8d0ab".getBytes();
+        final String HASH_TO_CRACK = "254a841f790e8efba6e23c190c36a750ce33ba44acc711a845d7aff12dabec507675763fa53005ee5616eeb5b0b72be92176ee0d19f0d098fef8b2fe45a8d0ab";
         System.out.println("Getting key space...");
         List<String> strings = getPlainTexts("./allLower5");
         System.out.println("Starting Cracking...");
-        for(String string : strings) {
-            byte[] hash = getHash(string);
-            if(Arrays.equals(HASH_TO_CRACK, hash)) {
+        for(String string : strings) { 
+            String hash = toHexString(getHash(string));
+            if(hash.equals(HASH_TO_CRACK)) {
                 System.out.println("CRACKED: " + string);
             }
         }
@@ -55,6 +55,15 @@ public class CustomHashSolver {
         byte[] s2 = getSHA256Hash(s1);
         byte[] s3 = getSHA512Hash(s2);
         return s3;
+    }
+    public static String toHexString(byte[] bytes) {
+        StringBuilder s = new StringBuilder();
+        for (int i = 0; i < bytes.length; i++) {
+            String hex = Integer.toHexString(0xFF & bytes[i]);
+            if (hex.length() == 1) { s.append('0'); }
+            s.append(hex);
+        }
+        return s.toString();
     }
 
     public static List<String> getPlainTexts(String pathFile) {
