@@ -16,8 +16,10 @@ public class CustomHashSolver {
         System.out.println("Starting Cracking...");
         for(String string : strings) { 
             String hash = toHexString(getHash(string));
-            if(hash.equals(HASH_TO_CRACK)) {
-                System.out.println("CRACKED: " + string);
+            System.out.println(string);
+            System.out.println(hash);
+            if(HASH_TO_CRACK.equals(hash)) {
+                System.out.println("--=---==>CRACKED: " + string);
             }
         }
 
@@ -51,9 +53,10 @@ public class CustomHashSolver {
     }
 
     public static byte[] getHash(String s) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-        byte[] s1 = getMD5Hash(s.getBytes("UTF-8"));
-        byte[] s2 = getSHA256Hash(s1);
-        byte[] s3 = getSHA512Hash(s2);
+        // converting to hex string is going to kill runtime :( but custom algo feeds hex string into hash.
+        byte[] s1 = toHexString(getMD5Hash(s.getBytes("UTF-8"))).getBytes();
+        byte[] s2 = toHexString(getSHA256Hash(s1)).getBytes();
+        byte[] s3 = toHexString(getSHA512Hash(s2)).getBytes();
         return s3;
     }
     public static String toHexString(byte[] bytes) {
