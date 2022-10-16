@@ -16,10 +16,11 @@ public class CustomHashSolver {
         System.out.println("Starting Cracking...");
         for(String string : strings) { 
             String hash = toHexString(getHash(string));
-            System.out.println(string);
-            System.out.println(hash);
+            // System.out.println(string);
+            // System.out.println(hash);
             if(HASH_TO_CRACK.equals(hash)) {
                 System.out.println("--=---==>CRACKED: " + string);
+                return;
             }
         }
 
