@@ -14,7 +14,7 @@ public class CustomHashSolver {
         List<String> strings = getPlainTexts("./allLower5");
         System.out.println("Starting Cracking...");
         for(String string : strings) {
-            String hash = getHash(string).toString();
+            String hash = getHash(string);
             if(hash.equals(HASH_TO_CRACK)) {
                 System.out.println("CRACKED: " + string);
             }
@@ -40,20 +40,19 @@ public class CustomHashSolver {
         return sha256.digest();
     }
 
-    public static byte[] getSHA512Hash(byte[] hash2) throws NoSuchAlgorithmException {
+    public static String getSHA512Hash(byte[] hash2) throws NoSuchAlgorithmException {
         MessageDigest sha512 = MessageDigest.getInstance("SHA-512");
         sha512.update(hash2);
         for(int i = 0; i < 99; i++) {
             sha512.update(sha512.digest());
         }
-        return sha512.digest();
+        return sha512.toString();
     }
 
-    public static byte[] getHash(String s) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+    public static String getHash(String s) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         byte[] s1 = getMD5Hash(s.getBytes("UTF-8"));
         byte[] s2 = getSHA256Hash(s1);
-        byte[] s3 = getSHA512Hash(s2);
-        return s3;
+        return getSHA512Hash(s2);
     }
 
     public static List<String> getPlainTexts(String pathFile) {
