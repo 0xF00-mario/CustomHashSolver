@@ -29,7 +29,8 @@ public class CustomHashSolver {
         MessageDigest mdMD5 = MessageDigest.getInstance("MD5");
         mdMD5.update(plain);
         for(int i = 0; i < 99; i++) {
-            mdMD5.update(mdMD5.digest());
+            mdMD5.update(toHexString(mdMD5.digest()).getBytes());
+            
         }
         return mdMD5.digest();
     }
@@ -53,10 +54,9 @@ public class CustomHashSolver {
     }
 
     public static byte[] getHash(String s) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-        // converting to hex string is going to kill runtime :( but custom algo feeds hex string into hash.
-        byte[] s1 = toHexString(getMD5Hash(s.getBytes("UTF-8"))).getBytes();
-        byte[] s2 = toHexString(getSHA256Hash(s1)).getBytes();
-        byte[] s3 = toHexString(getSHA512Hash(s2)).getBytes();
+        byte[] s1 = getMD5Hash(s.getBytes("UTF-8"));
+        byte[] s2 = getSHA256Hash(s1);
+        byte[] s3 = getSHA512Hash(s2);
         return s3;
     }
     public static String toHexString(byte[] bytes) {
