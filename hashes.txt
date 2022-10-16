@@ -1,0 +1,14 @@
+Your hash for Part 1 MD5:
+9dc4e64df9aeb1418fd634acb3cf8e96
+
+Your hash for Part 2 SHA256:
+7ef9900d552a58e4f6034ccf9b0f6e82bbc87b0ef0cdfa23cba50763de8dbb40
+
+Your hash for Part 3 bcrypt:
+$2b$12$EXZ/iO7BE6r1R/niu/f7vuqKDe6/mySrHcX08VIvqJEwESiLJSVDu
+
+Your hash for Part 4 custom:
+254a841f790e8efba6e23c190c36a750ce33ba44acc711a845d7aff12dabec507675763fa53005ee5616eeb5b0b72be92176ee0d19f0d098fef8b2fe45a8d0ab
+
+Your hash for Part 5 custom EC:
+c2ca0906eb29e1aa4ab97695b10ebf3619dfdb228d85d951a7b62f9785e5abbc8933b3daf2ba112497d6f10fdba1c84f2d37115672a334648fbe0cd6af591560

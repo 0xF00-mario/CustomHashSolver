@@ -1,0 +1,25 @@
+MD5: TALQDT
+SHA256: 2l97Z3g
+bcrypt: welcome
+custom: <part 4 password>
+custom ec: <part 5 password>
+Unity ID: mamedelp
+Descriptions:
+(MD5) I used hashcat and with the parameters of -m 0 -a 3
+        These parameters mean that it will crack MD5 using
+        a brute force attack but I also used a mask.
+        Using a mask I was able to reduce the search space
+        mask I used: ?a?a?a?a?a?a
+        this mask is all characters and a length of 6 (given).
+(SHA256) Using hashcat, I specified my attack mode to 1400 for sha256
+         the attack mode was bruteforce but I provided a mask to reduce
+         the search space. First I defined a character set for all upper,
+         lower, and numeric values the password. The mask uses the custom
+         character set and constraints the password to be of length 7.
+         I used a .hcmask file which contained the following line:
+        ?l?u?d,?1?1?1?1?1?1?1
+(BCRYPT) using hashcat, I launched a dictionary attack under the parameters
+         -m 3200 and -a 0 for dict attack. The wordlist that I used was
+         the famous kalilinux wordlist rockyou.txt. I downloaded the file from kaggle.
+         hashcat was able to find a common match welcome which is also in the rock you.txt file. 
+(CUSTOM)
