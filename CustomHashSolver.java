@@ -16,7 +16,6 @@ public class CustomHashSolver {
         System.out.println("Starting Cracking...");
         for(String string : strings) {
             byte[] hash = getHash(string);
-            System.out.println(HASH_TO_CRACK);
             if(Arrays.equals(HASH_TO_CRACK, hash)) {
                 System.out.println("CRACKED: " + string);
             }
