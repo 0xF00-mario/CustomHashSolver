@@ -7,15 +7,17 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Arrays;
 public class CustomHashSolver {
     public static void main(String[] args) throws UnsupportedEncodingException, NoSuchAlgorithmException{
-        final String HASH_TO_CRACK = "254a841f790e8efba6e23c190c36a750ce33ba44acc711a845d7aff12dabec507675763fa53005ee5616eeb5b0b72be92176ee0d19f0d098fef8b2fe45a8d0ab";
+        final byte[] HASH_TO_CRACK = "254a841f790e8efba6e23c190c36a750ce33ba44acc711a845d7aff12dabec507675763fa53005ee5616eeb5b0b72be92176ee0d19f0d098fef8b2fe45a8d0ab".getBytes();
         System.out.println("Getting key space...");
         List<String> strings = getPlainTexts("./allLower5");
         System.out.println("Starting Cracking...");
         for(String string : strings) {
-            String hash = getHash(string);
-            if(hash.equals(HASH_TO_CRACK)) {
+            byte[] hash = getHash(string);
+            System.out.println(HASH_TO_CRACK);
+            if(Arrays.equals(HASH_TO_CRACK, hash)) {
                 System.out.println("CRACKED: " + string);
             }
         }
@@ -40,19 +42,20 @@ public class CustomHashSolver {
         return sha256.digest();
     }
 
-    public static String getSHA512Hash(byte[] hash2) throws NoSuchAlgorithmException {
+    public static byte[] getSHA512Hash(byte[] hash2) throws NoSuchAlgorithmException {
         MessageDigest sha512 = MessageDigest.getInstance("SHA-512");
         sha512.update(hash2);
         for(int i = 0; i < 99; i++) {
             sha512.update(sha512.digest());
         }
-        return sha512.toString();
+        return sha512.digest();
     }
 
-    public static String getHash(String s) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+    public static byte[] getHash(String s) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         byte[] s1 = getMD5Hash(s.getBytes("UTF-8"));
         byte[] s2 = getSHA256Hash(s1);
-        return getSHA512Hash(s2);
+        byte[] s3 = getSHA512Hash(s2);
+        return s3;
     }
 
     public static List<String> getPlainTexts(String pathFile) {
