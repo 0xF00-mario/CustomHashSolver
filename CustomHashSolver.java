@@ -9,11 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CustomHashSolver {
+    private static final char[] HEX_ARRAY = "0123456789abcdef".toCharArray();
     public static void main(String[] args) throws UnsupportedEncodingException, NoSuchAlgorithmException{
         final String HASH_TO_CRACK = "254a841f790e8efba6e23c190c36a750ce33ba44acc711a845d7aff12dabec507675763fa53005ee5616eeb5b0b72be92176ee0d19f0d098fef8b2fe45a8d0ab";
         System.out.println("Getting key space...");
         List<String> strings = getPlainTexts("./allLower5");
         System.out.println("Starting Cracking...");
+        // System.out.println(toHexString(getHash("csc474")));
         for(String string : strings) { 
             String hash = toHexString(getHash(string));
             // System.out.println(string);
@@ -28,46 +30,60 @@ public class CustomHashSolver {
     // runs the plain text through md5 hash 100 times
     public static byte[] getMD5Hash(byte[] plain) throws NoSuchAlgorithmException{
         MessageDigest mdMD5 = MessageDigest.getInstance("MD5");
-        mdMD5.update(plain);
-        for(int i = 0; i < 99; i++) {
-            mdMD5.update(toHexString(mdMD5.digest()).getBytes());
-            
+        // mdMD5.update(plain);
+        String out = null;
+        for(int i = 0; i < 100; i++) {
+            if(i == 0) {
+                mdMD5.update(plain);
+                out = toHexString(mdMD5.digest());
+            } else {
+                mdMD5.update(out.getBytes());
+                if(i != 99) {
+                    out = toHexString(mdMD5.digest());
+                }
+            }
         }
         return mdMD5.digest();
     }
 
     public static byte[] getSHA256Hash(byte[] hash1) throws NoSuchAlgorithmException{
         MessageDigest sha256 = MessageDigest.getInstance("SHA-256");
-        sha256.update(hash1);
-        for(int i = 0; i < 99; i++) {   
-            sha256.update(sha256.digest());
+        String out = toHexString(hash1);
+        for(int i = 0; i < 100; i++) {
+            sha256.update(out.getBytes());
+            if(i != 99) {
+                out = toHexString(sha256.digest());
+            }
         }
         return sha256.digest();
     }
 
     public static byte[] getSHA512Hash(byte[] hash2) throws NoSuchAlgorithmException {
         MessageDigest sha512 = MessageDigest.getInstance("SHA-512");
-        sha512.update(hash2);
-        for(int i = 0; i < 99; i++) {
-            sha512.update(sha512.digest());
+        String out = toHexString(hash2);
+        for(int i = 0; i < 100; i++) {
+            sha512.update(out.getBytes());
+            if(i != 99) {
+                out = toHexString(sha512.digest());
+            }
         }
         return sha512.digest();
     }
 
     public static byte[] getHash(String s) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-        byte[] s1 = getMD5Hash(s.getBytes("UTF-8"));
+        byte[] s1 = getMD5Hash(s.getBytes());
         byte[] s2 = getSHA256Hash(s1);
         byte[] s3 = getSHA512Hash(s2);
         return s3;
     }
     public static String toHexString(byte[] bytes) {
-        StringBuilder s = new StringBuilder();
-        for (int i = 0; i < bytes.length; i++) {
-            String hex = Integer.toHexString(0xFF & bytes[i]);
-            if (hex.length() == 1) { s.append('0'); }
-            s.append(hex);
+        char[] hexChars = new char[bytes.length * 2];
+        for (int j = 0; j < bytes.length; j++) {
+            int v = bytes[j] & 0xFF;
+            hexChars[j * 2] = HEX_ARRAY[v >>> 4];
+            hexChars[j * 2 + 1] = HEX_ARRAY[v & 0x0F];
         }
-        return s.toString();
+        return new String(hexChars);
     }
 
     public static List<String> getPlainTexts(String pathFile) {
